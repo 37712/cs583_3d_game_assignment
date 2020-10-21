@@ -1,0 +1,5 @@
+Use the right mouse button to select an action when it is the Player's turn. 
+
+Actions include: heal and move
+
+After the Player's turn, the Player must press the end turn button to continue gameplay. 
