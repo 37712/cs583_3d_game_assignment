@@ -4,78 +4,39 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-public enum BattleState { START, PLAYERTURN, ENEMYTURN, WON, LOST, PLAYERMOVEMENT, ENEMYMOVEMENT }
+public enum BattleState {PLAYERTURN, ENEMYTURN, WON, LOST, PLAYERMOVEMENT, ENEMYMOVEMENT };
 
 public class BattleManager : MonoBehaviour
 {
     [SerializeField]
-    private float attack_range_of_player = 10f;
 
+    public BatteryState state;
+    public GameObject Player; // current player
+    public GameObject Enemy; // current enemy
+
+    // ray casting for mouse point and clic
     private RaycastHit hit;
     private Ray hit_on_click;
-    private bool[] do_not_access_this_enemy;
 
-    //This uses enemy Prefabs and player Prefabs to work
-
-    public GameObject playerPrefab;
-    public GameObject[] enemyPrefab;
 
     public Unit playerUnit;
     public Unit[] enemyUnit;
 
-    public static BattleState state;
-
     private void Awake()
     {
-        /* Create the "enemyUnit" objects with the same number of "EnemyMovement" objects */
-        enemyUnit = new Unit[enemyPrefab.Length];
-
+        // initialize scenario
+        SetupBattle();
     }
 
     void Start()
     {
-        state = BattleState.START;
-        StartCoroutine(SetupBattle());
+        
     }
 
-    /*
-     * @coroutine: SetupBattle
-     * notes: get's the player and enemies ready at the start of the scene
-     */
-    IEnumerator SetupBattle()
+    // Update is called once per frame
+    void Update()
     {
-        /*******************************ARMANDO COMMENT AND CODE BEGIN*************************************/
-
-        // I have made changes to this particular area where the prefabs are assigned to their 
-        // respective objects.  There will be multiple enemies, so simply making more copies of 
-        // enemy prefabs is possible.
-
-        playerUnit = playerPrefab.GetComponent<Unit>();
-        UnitManager.Instance.playerUnit = playerUnit;
-
-        UnitManager.Instance.enemyMove = new EnemyMovement[enemyPrefab.Length];
-        for (int i = 0; i < enemyUnit.Length; i++)
-        {
-            enemyUnit[i] = enemyPrefab[i].GetComponent<EnemyUnit>();
-            UnitManager.Instance.enemyMove[i] = enemyPrefab[i].GetComponent<EnemyMovement>();
-
-            // set enemy's visibility range
-            ((EnemyUnit)enemyUnit[i]).visibility_range = 25f;
-
-            // set enemy's attack range
-            ((EnemyUnit)enemyUnit[i]).attack_range = 3f;
-
-            // set up which enemy not to access
-            do_not_access_this_enemy = new bool[enemyPrefab.Length];
-        }
-
-        /******************************ARMANDO COMMENT AND CODE END**************************************/
-
-        yield return new WaitForSeconds(2f);
-        //Can change wait time 
-
         state = BattleState.PLAYERTURN;
-        Debug.Log("BattleState : " + state);
     }
 
     /*
@@ -315,11 +276,6 @@ public class BattleManager : MonoBehaviour
         return true;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        OnAttack();
-        make_enemy_turn();
-    }
+    
 }
 

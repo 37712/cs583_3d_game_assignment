@@ -13,7 +13,9 @@ public class UnitManager : MonoBehaviour
 {
 
     public int health; // health points
+    public int view_range; // how far can unit see
     public int attack; // attack points
+    public int attack_range; // how far can unit attack
 
     public int speed;
 
