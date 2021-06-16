@@ -9,6 +9,8 @@ using UnityEngine.AI;
 
 public class EnemyMovement : MonoBehaviour
 {
+    public EnemyUnit enemy_unit;
+
     /* Private Fields */
     private Transform player_tranform;
     private Animator animator;
@@ -16,16 +18,10 @@ public class EnemyMovement : MonoBehaviour
     private bool running = false,
                  init_rot = false,
                  init_mov = false;
-    private RaycastHit hit;
+
     private float rotSpeed = 90f;
 
     private bool attack = false;
-
-    /* Serialized Private Fields */
-    [SerializeField]
-    private EnemyUnit enemy_unit;
-
-
 
     void Start()
     {

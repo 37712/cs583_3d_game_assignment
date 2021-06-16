@@ -6,10 +6,13 @@ using UnityEngine.AI;
 public class BasicMovement : MonoBehaviour
 {
     private Animator animator;
-    private NavMeshAgent nav;
+    private NavMeshAgent nav; // needed for the point and clic
+    
+    public float maxMoveDistancePerTurn = 30;
+
+    // might not even need these, not sure
     private bool running = false;
     private bool shooting = false; 
-    public float maxMoveDistancePerTurn = 30;
 
 
     void Start()
@@ -21,20 +24,9 @@ public class BasicMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
-        //This needs to talk to the BattleManager.STATE somehow
-        Debug.Log("This is PState : " + BattleManager.state);
-
-        onMouseMove();
-
-        //mymethod(nav);
-
         /***** THIS PART IS FOR ANIMATION **********/
         animation_running();
         animation_shoot();
-        
-
-        
     }
 
     /*
@@ -93,6 +85,8 @@ public class BasicMovement : MonoBehaviour
      * @method: onMouseMove
      * notes: this one is responsible for moving unit around with the click of the mouse
      */
+
+     // need to fix this
     public void onMouseMove()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -100,7 +94,7 @@ public class BasicMovement : MonoBehaviour
 
         RaycastHit hit;
 
-        if (Input.GetMouseButtonDown(0) && BattleManager.state == BattleState.PLAYERMOVEMENT && move_with_cursor.Instance.exclusion_zone_method())
+        if (Input.GetMouseButtonDown(0) && move_with_cursor.Instance.exclusion_zone_method())
         {
             if (Physics.Raycast(ray, out hit, 100))
             {
@@ -116,12 +110,9 @@ public class BasicMovement : MonoBehaviour
                 if (Vector3.Distance(nav.destination, adjustment_of_position) <= maxMoveDistancePerTurn)
                 {
                     nav.destination = adjustment_of_position;
-                    BattleManager.state = BattleState.ENEMYTURN;
-                    BattleManager.Instance.make_enemy_turn();
                 }
             }
         }
     }
-        
 }
 

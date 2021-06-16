@@ -20,34 +20,14 @@ using UnityEngine.UI;
 
 public class UI_Control : MonoBehaviour
 {
-    /* Private Serialized Fields */
-    [SerializeField]
-    private Unit playerUnit;
-
-    /*  These are the fields that can only be interacted with */
-    [SerializeField]
-    private Button move_button,
+    public GameObject Game_Controller;
+    public Button move_button,
                    heal_button,
                    end_turn_button,
                    cancel_unit_button;
 
-
-    /********* Singleton **********/
- 
-    public static UI_Control Instance{ get; private set; }
-
-    /***** END OF SINGLETON *******/
-
     void Awake()
     {
-        //Initiate singleton
-        if (Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-            Destroy(gameObject);
 
     }
 
@@ -60,8 +40,8 @@ public class UI_Control : MonoBehaviour
         // accommodate your programming of the manager.
 
         /********************* ARMANDO END COMMENT ***********************/
-        move_button.onClick.AddListener(BattleManager.Instance.playerMovement);
-        heal_button.onClick.AddListener(BattleManager.Instance.OnHeal);
+        //move_button.onClick.AddListener(BattleManager.Instance.playerMovement);
+        //heal_button.onClick.AddListener(BattleManager.Instance.OnHeal);
         end_turn_button.onClick.AddListener(end_turn_method);
         cancel_unit_button.onClick.AddListener(cancel_action_method);
 
@@ -72,6 +52,13 @@ public class UI_Control : MonoBehaviour
         cancel_unit_button.interactable = false;
     }
 
+     // Update is called once per frame
+    void Update()
+    {
+        player_turn_ready();
+        enemy_turn_active();
+    }
+
     /* Private methods that the buttons will activate */
 
     /*
@@ -80,8 +67,7 @@ public class UI_Control : MonoBehaviour
      */
     private void end_turn_method()
     {
-        BattleManager.state = BattleState.ENEMYTURN;
-        BattleManager.Instance.make_enemy_turn();
+        Game_Controller.GetComponent<BattleManager>().state = BattleState.ENEMYTURN;
     }
 
     /*
@@ -90,19 +76,13 @@ public class UI_Control : MonoBehaviour
      */
     private void cancel_action_method()
     {
-        BattleManager.state = BattleState.PLAYERTURN;
-
+        print("method not written yet");
     }
 
     /************* end of methods *********************/
 
 
-    // Update is called once per frame
-    void Update()
-    {
-        player_turn_ready();
-        enemy_turn_active();
-    }
+   
 
     /* @method: player_turn_ready
      * note: makes the buttons active when it's the player's turn
@@ -110,7 +90,7 @@ public class UI_Control : MonoBehaviour
     private void player_turn_ready()
     {
         // enable the buttons when it's the player's turn
-        if (BattleManager.state == BattleState.PLAYERTURN)
+        if (Game_Controller.GetComponent<BattleManager>().state == BattleState.PLAYERTURN)
         {
             move_button.interactable = true;
             heal_button.interactable = true;
@@ -119,7 +99,7 @@ public class UI_Control : MonoBehaviour
         }
 
         // if the movement button was toggled, give the player a chance to cancel
-        if(BattleManager.state == BattleState.PLAYERMOVEMENT)
+        if(Game_Controller.GetComponent<BattleManager>().state == BattleState.PLAYERMOVEMENT)
         {
             move_button.interactable = false;
             cancel_unit_button.interactable = true;
@@ -132,7 +112,7 @@ public class UI_Control : MonoBehaviour
      */
     private void enemy_turn_active()
     {
-        if(BattleManager.state == BattleState.ENEMYTURN)
+        if(Game_Controller.GetComponent<BattleManager>().state == BattleState.ENEMYTURN)
         {
             move_button.interactable = false;
             heal_button.interactable = false;

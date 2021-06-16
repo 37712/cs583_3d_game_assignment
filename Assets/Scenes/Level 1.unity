@@ -468,7 +468,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400052, guid: c6acf3f29c109e4439950c8f6a85cb2b, type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 400052, guid: c6acf3f29c109e4439950c8f6a85cb2b, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1502,7 +1502,7 @@ Transform:
   - {fileID: 964747874}
   - {fileID: 1631011156}
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &976489782
 GameObject:
@@ -2147,7 +2147,7 @@ Transform:
   - {fileID: 1184124716}
   - {fileID: 1610008921}
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1255131564
 GameObject:
@@ -2260,10 +2260,10 @@ MonoBehaviour:
   attack_range_of_player: 10
   playerPrefab: {fileID: 218789406}
   enemyPrefab:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   - {fileID: 1000018572}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   playerUnit: {fileID: 0}
   enemyUnit: []
 --- !u!4 &1327275513
@@ -2278,7 +2278,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1327275514
 MonoBehaviour:
@@ -2492,6 +2492,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 95446636183784616, guid: a8145fd98e506094980d05080bde9072,
+        type: 3}
+      propertyPath: m_Avatar
+      value: 
+      objectReference: {fileID: 9000000, guid: 8c53cffd52097cf4582f0a090c9a833e, type: 3}
     - target: {fileID: 136043099458248162, guid: a8145fd98e506094980d05080bde9072,
         type: 3}
       propertyPath: m_Height
@@ -2974,7 +2979,7 @@ RectTransform:
   - {fileID: 988110179}
   - {fileID: 57675549}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -3125,7 +3130,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2010689024
 GameObject:

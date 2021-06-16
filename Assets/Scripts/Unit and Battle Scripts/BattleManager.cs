@@ -4,13 +4,11 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-public enum BattleState {PLAYERTURN, ENEMYTURN, WON, LOST, PLAYERMOVEMENT, ENEMYMOVEMENT };
+public enum BattleState {PLAYERTURN, ENEMYTURN, PLAYERMOVEMENT, ENEMYMOVEMENT, WON, LOST};
 
 public class BattleManager : MonoBehaviour
 {
-    [SerializeField]
-
-    public BatteryState state;
+    public BattleState state;
     public GameObject Player; // current player
     public GameObject Enemy; // current enemy
 
@@ -24,8 +22,9 @@ public class BattleManager : MonoBehaviour
 
     private void Awake()
     {
+        state = BattleState.PLAYERTURN;
         // initialize scenario
-        SetupBattle();
+        //SetupBattle();
     }
 
     void Start()
@@ -36,33 +35,28 @@ public class BattleManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        state = BattleState.PLAYERTURN;
+        
     }
 
     /*
      * @coroutine: PlayerAttack
      * notes: player inflicts damage on a unit
      */
-    IEnumerator PlayerAttack(float unit_distances, Transform enemy_transform)
+    public IEnumerator Attack(GameObject AttakingUnit, GameObject DefendingUnit)
     {
-        // is the attack in range of the player?
-        if (unit_distances <= attack_range_of_player)
+        // flag if the unit has finally died
+        if (enemy_transform.GetComponent<EnemyUnit>().TakeDamage(playerUnit.damage))
         {
-            // flag if the unit has finally died
-            if (enemy_transform.GetComponent<EnemyUnit>().TakeDamage(playerUnit.damage))
-            {
-                enemy_transform.GetComponent<EnemyUnit>().isDead = true;
+            enemy_transform.GetComponent<EnemyUnit>().isDead = true;
 
-                // do a lookup of who died
-                for (int i = 0; i < enemyUnit.Length; i++)
-                    if (!do_not_access_this_enemy[i])
-                        if (((EnemyUnit)enemyUnit[i]).isDead)
-                        {
-                            do_not_access_this_enemy[i] = true;
-                            ((EnemyUnit)enemyUnit[i]).finish_him = true;
-                        }
-            }
-
+            // do a lookup of who died
+            for (int i = 0; i < enemyUnit.Length; i++)
+                if (!do_not_access_this_enemy[i])
+                    if (((EnemyUnit)enemyUnit[i]).isDead)
+                    {
+                        do_not_access_this_enemy[i] = true;
+                        ((EnemyUnit)enemyUnit[i]).finish_him = true;
+                    }
         }
 
         yield return new WaitForSeconds(2f);
