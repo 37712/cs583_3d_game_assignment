@@ -25,29 +25,12 @@ public class BattleManager : MonoBehaviour
 
     public static BattleState state;
 
-    /************************** ARMANDO CODE SECTION ****************************/
-
-    // I'm going to turn this battle manager into a singleton because it never was.
-
-    public static BattleManager Instance { get; private set; }
-
     private void Awake()
     {
-        //Initiate singleton
-        if (Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-            Destroy(gameObject);
-
         /* Create the "enemyUnit" objects with the same number of "EnemyMovement" objects */
         enemyUnit = new Unit[enemyPrefab.Length];
 
     }
-
-    /**************************** ARMANDO CODE END ******************************/
 
     void Start()
     {
@@ -319,6 +302,17 @@ public class BattleManager : MonoBehaviour
 
         if (state != BattleState.LOST && state == BattleState.ENEMYTURN)
             state = BattleState.PLAYERTURN;
+    }
+
+    public bool all_enemies_dead()
+    {
+        // run through entire array of enemy units, and if
+        // one of them IS NOT DEAD, then return false.
+        for (int i = 0; i < BattleManager.Instance.enemyUnit.Length; i++)
+            if (!((EnemyUnit) BattleManager.Instance.enemyUnit[i]).isDead)
+                return false;
+
+        return true;
     }
 
     // Update is called once per frame
