@@ -29,7 +29,7 @@ public class EnemyMovement : MonoBehaviour
         nav = GetComponent<NavMeshAgent>();
 
         nav.stoppingDistance = 3f;
-        player_tranform = BattleManager.Instance.playerPrefab.GetComponent<Unit>().transform;
+        //player_tranform = BattleManager.Instance.playerPrefab.GetComponent<Unit>().transform;
     }
 
     private void Update()
@@ -50,7 +50,7 @@ public class EnemyMovement : MonoBehaviour
             move_to_direction();
 
             /* Keep the player's tranformation updated */
-            player_tranform = UnitManager.Instance.playerUnit.transform;
+            //player_tranform = UnitManager.Instance.playerUnit.transform;
             
        // }
     }

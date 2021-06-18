@@ -17,8 +17,8 @@ public class BattleManager : MonoBehaviour
     private Ray hit_on_click;
 
 
-    public Unit playerUnit;
-    public Unit[] enemyUnit;
+    public Unit PlayerUnit;
+    public Unit[] EnemyUnit;
 
     private void Awake()
     {
@@ -35,54 +35,33 @@ public class BattleManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        switch(state)
+        {
+            case BattleState.PLAYERTURN:
+                print("PLAYERTURN");
+
+                // check if all enemies dead
+
+                break;
+
+            case BattleState.ENEMYTURN:
+                print("ENEMYTURN");
+
+                // check if player is dead
+
+                break;
+        }
     }
 
     /*
      * @coroutine: PlayerAttack
      * notes: player inflicts damage on a unit
      */
-    public IEnumerator Attack(GameObject AttakingUnit, GameObject DefendingUnit)
+    public void PlayerAttack( GameObject DefendingUnit)
     {
-        // flag if the unit has finally died
-        if (enemy_transform.GetComponent<EnemyUnit>().TakeDamage(playerUnit.damage))
-        {
-            enemy_transform.GetComponent<EnemyUnit>().isDead = true;
+        // do attack
 
-            // do a lookup of who died
-            for (int i = 0; i < enemyUnit.Length; i++)
-                if (!do_not_access_this_enemy[i])
-                    if (((EnemyUnit)enemyUnit[i]).isDead)
-                    {
-                        do_not_access_this_enemy[i] = true;
-                        ((EnemyUnit)enemyUnit[i]).finish_him = true;
-                    }
-        }
-
-        yield return new WaitForSeconds(2f);
-        //can change wait time 
-
-        //Checks Enemy state, if dead ends battle
-        //Else goes into BattleState.ENEMYTURN which sets it to enemy's turn
-        if (UnitManager.Instance.all_enemies_dead())
-        {
-            state = BattleState.WON;
-            EndBattle();
-        }
-
-        else
-        {
-            state = BattleState.ENEMYTURN;
-            for (int i = 0; i < enemyUnit.Length; i++)
-            {
-                if (!do_not_access_this_enemy[i] && state != BattleState.LOST)
-                    EnemyTurn(enemyUnit[i]);
-            }
-
-            if (state != BattleState.LOST)
-                state = BattleState.PLAYERTURN;
-        }
-        //yield return new WaitForSeconds(2f);
+        // change state to enemy turn
     }
 
     /*
@@ -107,7 +86,7 @@ public class BattleManager : MonoBehaviour
         /******************** ARMANDO COMMENT AND CODE *******************/
 
         /* seek out the player! */
-        if ((temp = Vector3.Distance(each_enemy.transform.position, playerUnit.transform.position)) <= ((EnemyUnit)each_enemy).visibility_range)
+        if ((temp = Vector3.Distance(each_enemy.transform.position, PlayerUnit.transform.position)) <= ((EnemyUnit)each_enemy).visibility_range)
         {
             ((EnemyUnit)each_enemy).move_enemy = true;
         }
@@ -122,9 +101,9 @@ public class BattleManager : MonoBehaviour
         //finally, inflict damage if in proximity
         enemy_lock = ((EnemyUnit)each_enemy).player_on_lock;
 
-        if (Vector3.Distance(each_enemy.transform.position, playerUnit.transform.position) <= ((EnemyUnit)each_enemy).attack_range && enemy_lock)
+        if (Vector3.Distance(each_enemy.transform.position, PlayerUnit.transform.position) <= ((EnemyUnit)each_enemy).attack_range && enemy_lock)
         {
-            isDead = playerUnit.TakeDamage(each_enemy.damage);
+            isDead = PlayerUnit.TakeDamage(each_enemy.damage);
             ((EnemyUnit)each_enemy).player_on_lock = false;
 
             // reset lock
@@ -164,36 +143,6 @@ public class BattleManager : MonoBehaviour
 
 
 
-    /*
-     * @coroutine: PlayerHeal
-     * notes: upon call, the player loses a turn in exchange for healing
-     */
-    IEnumerator PlayerHeal()
-    {
-        //Example of Player Skill on a button etc, heal used for example
-        //Look in the Unit script to start the .commands
-        playerUnit.Heal(5);
-
-        //Can change HUD, etc here
-
-        yield return new WaitForSeconds(2f);
-        //Can change wait times here if you want 
-
-        state = BattleState.ENEMYTURN;
-        //Can change to PLAYERTURN here if you want to allow multiple moves in a turn
-        for (int i = 0; i < enemyUnit.Length; i++)
-        {
-            if (!do_not_access_this_enemy[i] && state != BattleState.LOST)
-                StartCoroutine(EnemyTurn(enemyUnit[i]));
-        }
-
-        if (state != BattleState.LOST)
-            state = BattleState.PLAYERTURN;
-
-
-    }
-
-
 
 
     /*
@@ -217,7 +166,7 @@ public class BattleManager : MonoBehaviour
         {
             if (hit.transform.tag == "enemy")
             {
-                StartCoroutine(PlayerAttack(Vector3.Distance(hit.transform.position, playerUnit.transform.position), hit.transform));
+                // start player attack on an enemy
             }
         }
     }
@@ -226,15 +175,11 @@ public class BattleManager : MonoBehaviour
      * @method: OnHeal
      * note: starts PlayerHeal coroutine; player's turn must be activated prior to call;
      */
-    public void OnHeal()
+    public void PlayerHeal()
     {
-        //Prevents the player from spamming heals when not their turn
-        if (state != BattleState.PLAYERTURN)
-        {
-            return;
-        }
+        // full Heal of player
 
-        StartCoroutine(PlayerHeal());
+        // change state to enemy turn
     }
 
     /*
@@ -246,28 +191,15 @@ public class BattleManager : MonoBehaviour
         state = BattleState.PLAYERMOVEMENT;
     }
 
-    public void make_enemy_turn()
+    public bool IsPlayerDead()
     {
-        if (state == BattleState.ENEMYTURN)
-            for (int i = 0; i < enemyUnit.Length; i++)
-            {
-                if (!do_not_access_this_enemy[i] && state != BattleState.LOST)
-                    StartCoroutine(EnemyTurn(enemyUnit[i]));
-            }
-
-        if (state != BattleState.LOST && state == BattleState.ENEMYTURN)
-            state = BattleState.PLAYERTURN;
+        return false;
     }
-
     public bool all_enemies_dead()
     {
         // run through entire array of enemy units, and if
         // one of them IS NOT DEAD, then return false.
-        for (int i = 0; i < BattleManager.Instance.enemyUnit.Length; i++)
-            if (!((EnemyUnit) BattleManager.Instance.enemyUnit[i]).isDead)
-                return false;
-
-        return true;
+        return false;
     }
 
     

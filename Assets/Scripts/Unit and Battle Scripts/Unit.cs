@@ -8,11 +8,15 @@ public class Unit : MonoBehaviour
 
     public string unitName;
     public int unitLevel;
-
     public int damage;
     public int score = 0; 
     public int maxHP;
     public int currentHP;
+    public int view_range; // how far can unit see
+    public int attack; // attack points
+    public int attack_range; // how far can unit attack
+
+    public int speed;
     public int KillsToWin = 5;
 
     public AudioClip injuredSound;

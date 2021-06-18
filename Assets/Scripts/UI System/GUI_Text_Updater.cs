@@ -11,11 +11,10 @@ using UnityEngine.UI;
 
 public class GUI_Text_Updater : MonoBehaviour
 {
-    public GameObject Game_Controller;
-    public GameObject Turn_status;
+    public GameObject GameController;
+    public GameObject TurnStatus;
     public GameObject victory_panel;
     public GameObject louser_panel;
-
     private void Start()
     {
 
@@ -23,26 +22,26 @@ public class GUI_Text_Updater : MonoBehaviour
 
     void Update()
     {
-        BattleState state = Game_Controller.GetComponent<BattleManager>().state;
+        BattleState state = GameController.GetComponent<BattleManager>().state;
         switch(state)
         {
             case BattleState.PLAYERTURN:
-                Turn_status.GetComponent<Text>().text = "PLAYERTURN";
+                TurnStatus.GetComponent<Text>().text = "PLAYERTURN";
                 break;
             case BattleState.ENEMYTURN:
-                Turn_status.GetComponent<Text>().text = "ENEMYTURN";
+                TurnStatus.GetComponent<Text>().text = "ENEMYTURN";
                 break;
             case BattleState.PLAYERMOVEMENT:
-                Turn_status.GetComponent<Text>().text = "PLAYERMOVEMENT";
+                TurnStatus.GetComponent<Text>().text = "PLAYERMOVEMENT";
                 break;
             case BattleState.ENEMYMOVEMENT:
-                Turn_status.GetComponent<Text>().text = "ENEMYMOVEMENT";
+                TurnStatus.GetComponent<Text>().text = "ENEMYMOVEMENT";
                 break;
             case BattleState.WON:
-                Turn_status.GetComponent<Text>().text = "WON";
+                TurnStatus.GetComponent<Text>().text = "WON";
                 break;
             case BattleState.LOST:
-                Turn_status.GetComponent<Text>().text = "LOST";
+                TurnStatus.GetComponent<Text>().text = "LOST";
                 break;
         } 
     }

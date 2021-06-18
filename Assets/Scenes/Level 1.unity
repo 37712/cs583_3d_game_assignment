@@ -657,6 +657,10 @@ MonoBehaviour:
   score: 0
   maxHP: 5
   currentHP: 5
+  view_range: 0
+  attack: 0
+  attack_range: 0
+  speed: 0
   KillsToWin: 5
   injuredSound: {fileID: 8300000, guid: 48e73ab482205cc428dffb4fd0eed9b0, type: 3}
 --- !u!1001 &313870574
@@ -1595,7 +1599,7 @@ GameObject:
   - component: {fileID: 988110180}
   - component: {fileID: 988110182}
   m_Layer: 5
-  m_Name: Player Information
+  m_Name: GUI Data
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1672,15 +1676,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 720d438a8695c104ebbd5839f38a2026, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unit_name: {fileID: 0}
-  health: {fileID: 0}
-  movement_count: {fileID: 0}
-  damage: {fileID: 0}
-  score: {fileID: 0}
-  turn_status: {fileID: 0}
-  victory: {fileID: 0}
+  GameController: {fileID: 1327275511}
+  TurnStatus: {fileID: 2356779}
   victory_panel: {fileID: 0}
-  player: {fileID: 0}
+  louser_panel: {fileID: 0}
 --- !u!1 &1000018572 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1190601789873990, guid: a8145fd98e506094980d05080bde9072,
@@ -1727,6 +1726,10 @@ MonoBehaviour:
   score: 0
   maxHP: 1
   currentHP: 1
+  view_range: 0
+  attack: 0
+  attack_range: 0
+  speed: 0
   KillsToWin: 5
   injuredSound: {fileID: 0}
   isDead: 0
@@ -1736,7 +1739,6 @@ MonoBehaviour:
   destination: {x: 0, y: 0, z: 0}
   move_enemy: 0
   visibility_range: 10
-  attack_range: 0
 --- !u!114 &1000018575
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2278,15 +2280,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e78364f18b7e8941b2f8b7109e602c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attack_range_of_player: 10
-  playerPrefab: {fileID: 218789406}
-  enemyPrefab:
-  - {fileID: 1000018572}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  playerUnit: {fileID: 0}
-  enemyUnit: []
+  state: 0
+  Player: {fileID: 0}
+  Enemy: {fileID: 0}
+  PlayerUnit: {fileID: 0}
+  EnemyUnit: []
 --- !u!4 &1327275513
 Transform:
   m_ObjectHideFlags: 0
@@ -2445,7 +2443,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4257605397364450, guid: a8145fd98e506094980d05080bde9072, type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4257605397364450, guid: a8145fd98e506094980d05080bde9072, type: 3}
       propertyPath: m_LocalScale.x

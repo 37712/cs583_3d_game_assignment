@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// inherits from Unit.cs
 public class EnemyUnit : Unit
 {
     /* Public Field*/
@@ -26,11 +27,10 @@ public class EnemyUnit : Unit
     public Vector3 destination;
     public bool move_enemy = false;
     public float visibility_range;
-    public float attack_range;
 
     void Start()
     {
-        player_transform = BattleManager.Instance.playerPrefab.GetComponent<Unit>().transform;
+        //player_transform = BattleManager.Instance.playerPrefab.GetComponent<Unit>().transform;
     }
 
     // Update is called once per frame
@@ -40,10 +40,10 @@ public class EnemyUnit : Unit
         track_path_movement(enemy_has_a_path);
 
         /* Keep enemy updated on player's position */
-        destination = BattleManager.Instance.playerPrefab.GetComponent<Unit>().transform.position;
+        //destination = BattleManager.PlayerUnit.GetComponent<Unit>().transform.position;
 
         /* check if unit is still alive */
-        enemy_death();
+        IsDead();
     }
 
     /* private methods */
@@ -67,7 +67,7 @@ public class EnemyUnit : Unit
     public void check_proximity()
     {
         // Does the enemy see the player unit? If so, then lock on, and attack
-        if (Vector3.Distance(player_transform.position, transform.position) <= attack_range && BattleManager.state == BattleState.ENEMYTURN)
+        if (Vector3.Distance(player_transform.position, transform.position) <= attack_range)
         {
             // lock on player!
             player_on_lock = true;
@@ -79,14 +79,12 @@ public class EnemyUnit : Unit
      * @method: enemy_death
      * notes: destroys the enemy object altogether if enemy is no longer alive
      */
-    private void enemy_death()
+    private void IsDead()
     {
         if (isDead && finish_him)
         {
             Destroy(gameObject);
-
         }
-            
     }
 
     /* public methods */

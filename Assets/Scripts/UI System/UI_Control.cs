@@ -120,7 +120,4 @@ public class UI_Control : MonoBehaviour
             end_turn_button.interactable = false;
         }
     }
-
-    /* Public Fields */
-    
 }
