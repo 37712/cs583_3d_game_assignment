@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class UI_Control : MonoBehaviour
 {
     public GameObject Game_Controller;
+    public GameObject PlayerUnit;
     public Button move_button,
                    heal_button,
                    cancel_button,
@@ -25,7 +26,7 @@ public class UI_Control : MonoBehaviour
 
     public void move_action()
     {
-        print("method not written yet");
+        PlayerUnit.GetComponent<BasicMovement>().onMouseMove();
     }
 
     public void heal_action()
@@ -46,17 +47,18 @@ public class UI_Control : MonoBehaviour
     /* @method: player_turn_ready
      * note: makes the buttons active when it's the player's turn
      */
-    private void player_turn()
+    public void player_turn()
     {
         // enable the buttons when it's the player's turn
         if (Game_Controller.GetComponent<BattleManager>().state == BattleState.PLAYERTURN)
         {
             move_button.interactable = true;
             heal_button.interactable = true;
-            cancel_button.interactable = false;
+            cancel_button.interactable = true;
             end_turn_button.interactable = true;
         }
 
+        // this part needs to be depricated
         // if the movement button was toggled, give the player a chance to cancel
         if(Game_Controller.GetComponent<BattleManager>().state == BattleState.PLAYERMOVEMENT)
         {
@@ -69,7 +71,7 @@ public class UI_Control : MonoBehaviour
      * @method: enemy_turn_active
      * Notes, disable buttons while it is the enemy's turn
      */
-    private void enemy_turn()
+    public void enemy_turn()
     {
         if(Game_Controller.GetComponent<BattleManager>().state == BattleState.ENEMYTURN)
         {

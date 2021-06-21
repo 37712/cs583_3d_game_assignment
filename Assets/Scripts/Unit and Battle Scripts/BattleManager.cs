@@ -9,27 +9,18 @@ public enum BattleState {PLAYERTURN, ENEMYTURN, PLAYERMOVEMENT, ENEMYMOVEMENT, W
 public class BattleManager : MonoBehaviour
 {
     public BattleState state;
-    public GameObject Player; // current player
+    public GameObject PlayerUnit; // current player
     public GameObject Enemy; // current enemy
+    public GameObject[] EnemyList;
+    public GameObject UI_Controller;
 
     // ray casting for mouse point and clic
     private RaycastHit hit;
     private Ray hit_on_click;
 
-
-    public Unit PlayerUnit;
-    public Unit[] EnemyUnit;
-
-    private void Awake()
-    {
-        state = BattleState.PLAYERTURN;
-        // initialize scenario
-        //SetupBattle();
-    }
-
     void Start()
     {
-        
+        //populate enemy list and enemey game object
     }
 
     // Update is called once per frame
@@ -39,6 +30,8 @@ public class BattleManager : MonoBehaviour
         {
             case BattleState.PLAYERTURN:
                 print("PLAYERTURN");
+                // enable player buttons
+                UI_Controller.GetComponent<UI_Control>().player_turn();
 
                 // check if all enemies dead
 
@@ -102,7 +95,7 @@ public class BattleManager : MonoBehaviour
 
         if (Vector3.Distance(each_enemy.transform.position, PlayerUnit.transform.position) <= ((EnemyUnit)each_enemy).attack_range && enemy_lock)
         {
-            PlayerUnit.TakeDamage(each_enemy.damage);
+            PlayerUnit.GetComponent<Unit>().TakeDamage(each_enemy.damage);
             ((EnemyUnit)each_enemy).player_on_lock = false;
 
             // reset lock
@@ -132,8 +125,7 @@ public class BattleManager : MonoBehaviour
 
 
     /*
-     * @method: OnAttack
-     * notes: initiates the PlayerAttack coroutine
+     * notes: initiates the PlayerAttack
      */
     public void OnAttack()
     {
@@ -158,7 +150,6 @@ public class BattleManager : MonoBehaviour
     }
 
     /*
-     * @method: OnHeal
      * note: starts PlayerHeal coroutine; player's turn must be activated prior to call;
      */
     public void PlayerHeal()
@@ -168,24 +159,14 @@ public class BattleManager : MonoBehaviour
         // change state to enemy turn
     }
 
-    /*
-     * @method: playerMovement
-     * notes: toggles the PLAYERMOVEMENT state
-     */
-    public void playerMovement()
+    public void IsPlayerDead()
     {
-        state = BattleState.PLAYERMOVEMENT;
+        state = BattleState.LOST;
     }
-
-    public bool IsPlayerDead()
-    {
-        return false;
-    }
-    public bool all_enemies_dead()
+    public void all_enemies_dead()
     {
         // run through entire array of enemy units, and if
         // one of them IS NOT DEAD, then return false.
-        return false;
+        state = BattleState.WON;
     }
 }
-

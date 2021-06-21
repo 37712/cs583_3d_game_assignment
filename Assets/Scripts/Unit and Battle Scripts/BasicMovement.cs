@@ -8,15 +8,15 @@ public class BasicMovement : MonoBehaviour
     private Animator animator;
     private NavMeshAgent nav; // needed for the point and clic
     
-    public float maxMoveDistancePerTurn = 30;
+    public float maxMoveDistancePerTurn;
 
     // might not even need these, not sure
     private bool running = false;
-    private bool shooting = false; 
-
+    private bool shooting = false;
 
     void Start()
     {
+        // maybe not needed
         animator = GetComponent<Animator>();
         nav = GetComponent<NavMeshAgent>();
     }
@@ -36,7 +36,7 @@ public class BasicMovement : MonoBehaviour
     private void animation_running()
     {
         // remaining distance is between 0 and 35
-        if (nav.remainingDistance >= nav.stoppingDistance)
+        if (running && nav.remainingDistance >= nav.stoppingDistance)
         {
             //animation
             running = true;
@@ -70,11 +70,8 @@ public class BasicMovement : MonoBehaviour
         animator.SetBool("shooting", shooting);
     }
 
-    /*
-     * @method: mymethod
-     * @param: NavMeshAgent nav
-     * notes: reports, I believe, where the unit is moving and it's remaining travel distance?
-     */
+
+     // test method, prints where the unit is moving and it's remaining travel distance? 
     void mymethod(NavMeshAgent nav)
     {
         print("destination" + nav.destination);
@@ -89,6 +86,7 @@ public class BasicMovement : MonoBehaviour
      // need to fix this
     public void onMouseMove()
     {
+        Debug.Log("########### ON MOUSE MOVE ##########");
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         Vector3 adjustment_of_position; // This vector shall assist in proberly positioning the player in terms of (X,Z)
 
@@ -110,6 +108,7 @@ public class BasicMovement : MonoBehaviour
                 if (Vector3.Distance(nav.destination, adjustment_of_position) <= maxMoveDistancePerTurn)
                 {
                     nav.destination = adjustment_of_position;
+                    running = true;
                 }
             }
         }

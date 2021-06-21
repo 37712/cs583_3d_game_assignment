@@ -72,7 +72,6 @@ public class EnemyUnit : Unit
             // lock on player!
             player_on_lock = true;
         }
-   
     }
 
     /*
@@ -86,7 +85,4 @@ public class EnemyUnit : Unit
             Destroy(gameObject);
         }
     }
-
-    /* public methods */
-
 }

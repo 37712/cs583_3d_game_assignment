@@ -30,20 +30,17 @@ public class Unit : MonoBehaviour
 
         currentHP -= dmg;
 
-        // if unit is dead?
-        if (currentHP <= 0) currentHP = 0;
+        // if currentHP is negative
+        if (currentHP < 0) currentHP = 0;
     }
 
     // restores max health
     public void Heal()
     {
-        //Example of special command
         currentHP = maxHP;
-        if (currentHP > maxHP)
-            currentHP = maxHP;
     }
 
-    public void AddPoints()
+    public void AddKillCount()
     {
         killCount++;
     }
