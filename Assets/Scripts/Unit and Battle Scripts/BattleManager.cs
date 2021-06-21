@@ -71,7 +71,6 @@ public class BattleManager : MonoBehaviour
      */
     IEnumerator EnemyTurn(Unit each_enemy)
     {
-        bool isDead = false;
         bool enemy_lock = false;
         float temp;
 
@@ -103,24 +102,11 @@ public class BattleManager : MonoBehaviour
 
         if (Vector3.Distance(each_enemy.transform.position, PlayerUnit.transform.position) <= ((EnemyUnit)each_enemy).attack_range && enemy_lock)
         {
-            isDead = PlayerUnit.TakeDamage(each_enemy.damage);
+            PlayerUnit.TakeDamage(each_enemy.damage);
             ((EnemyUnit)each_enemy).player_on_lock = false;
 
             // reset lock
             enemy_lock = false;
-        }
-
-        /******************** ARMANDO COMMENT AND CODE END ***************/
-
-        if (isDead)
-        {
-            state = BattleState.LOST;
-            EndBattle();
-        }
-        else
-        {
-            // state = BattleState.PLAYERTURN;
-
         }
 
         yield return new WaitForSeconds(2f);
@@ -201,7 +187,5 @@ public class BattleManager : MonoBehaviour
         // one of them IS NOT DEAD, then return false.
         return false;
     }
-
-    
 }
 

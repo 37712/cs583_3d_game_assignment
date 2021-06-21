@@ -3,25 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-/***********************************************************/
-/* This script shall depend on the EnemyUnit script        */
-/***********************************************************/
-
 public class EnemyMovement : MonoBehaviour
 {
     public EnemyUnit enemy_unit;
-
-    /* Private Fields */
-    private Transform player_tranform;
-    private Animator animator;
-    private NavMeshAgent nav;
-    private bool running = false,
+    public Transform player_tranform;
+    public Animator animator;
+    public NavMeshAgent nav;
+    public bool running = false,
                  init_rot = false,
                  init_mov = false;
 
-    private float rotSpeed = 90f;
+    public float rotSpeed; // normaly 90f
 
-    private bool attack = false;
+    public bool attack = false;
 
     void Start()
     {
@@ -29,14 +23,12 @@ public class EnemyMovement : MonoBehaviour
         nav = GetComponent<NavMeshAgent>();
 
         nav.stoppingDistance = 3f;
-        //player_tranform = BattleManager.Instance.playerPrefab.GetComponent<Unit>().transform;
+        player_tranform = player_tranform.GetComponent<Transform>();
     }
 
     private void Update()
     {
         enemyMove();
-
-        
     }
 
 
@@ -98,7 +90,7 @@ public class EnemyMovement : MonoBehaviour
             nav.SetDestination(enemy_unit.destination);
             //nav.SetDestination(Vector3.MoveTowards(transform.position, destination, moveSpeed * Time.deltaTime));
 
-        //Is the unit close enough to the player unit?
+        //Is the enemy unit close enough to the player unit?
         if (Vector3.Distance(player_tranform.transform.position, transform.position) <= nav.stoppingDistance)
         {
             init_mov = false;

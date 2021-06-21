@@ -12,9 +12,13 @@ using UnityEngine.UI;
 public class GUI_Text_Updater : MonoBehaviour
 {
     public GameObject GameController;
-    public GameObject TurnStatus;
+    public Unit PlayerUnit;
+    public Text TurnStatus;
+    public Text HealthStatus;
+    public Text killCountStatus;
     public GameObject victory_panel;
     public GameObject louser_panel;
+
     private void Start()
     {
 
@@ -22,27 +26,41 @@ public class GUI_Text_Updater : MonoBehaviour
 
     void Update()
     {
+        // update GUI battle state text
         BattleState state = GameController.GetComponent<BattleManager>().state;
         switch(state)
         {
             case BattleState.PLAYERTURN:
-                TurnStatus.GetComponent<Text>().text = "PLAYERTURN";
+                TurnStatus.text = "PLAYERTURN";
                 break;
+
             case BattleState.ENEMYTURN:
-                TurnStatus.GetComponent<Text>().text = "ENEMYTURN";
+                TurnStatus.text = "ENEMYTURN";
                 break;
+
             case BattleState.PLAYERMOVEMENT:
-                TurnStatus.GetComponent<Text>().text = "PLAYERMOVEMENT";
+                TurnStatus.text = "PLAYERMOVEMENT";
                 break;
+
             case BattleState.ENEMYMOVEMENT:
-                TurnStatus.GetComponent<Text>().text = "ENEMYMOVEMENT";
+                TurnStatus.text = "ENEMYMOVEMENT";
                 break;
+
             case BattleState.WON:
-                TurnStatus.GetComponent<Text>().text = "WON";
+                TurnStatus.text = "WON";
+                print("need to implement WON panel");
                 break;
+
             case BattleState.LOST:
-                TurnStatus.GetComponent<Text>().text = "LOST";
+                TurnStatus.text = "LOST";
+                print("need to implement LOST panel");
                 break;
-        } 
+        }
+
+        // update GUI health status text
+        HealthStatus.text = "Health = " + PlayerUnit.currentHP;
+
+        // update GUI killCount status text
+        killCountStatus.text = "killCount = " + PlayerUnit.killCount;
     }
 }
